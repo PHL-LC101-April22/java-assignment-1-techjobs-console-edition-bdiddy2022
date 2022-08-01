@@ -1,7 +1,5 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.security.KeyPair;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -9,6 +7,7 @@ import java.util.Scanner;
 public class TechJobs {
 
     static Scanner in = new Scanner(System.in);
+    private static ArrayList<HashMap<String, String>> mapArrayList;
 
     public static void main (String[] args) {
 
@@ -19,13 +18,13 @@ public class TechJobs {
         columnChoices.put("location", "Location");
         columnChoices.put("position type", "Position Type");
         columnChoices.put("all", "All");
-
+                    //connects csv variables to front end terms
         // Top-level menu options
         HashMap<String, String> actionChoices = new HashMap<>();
         actionChoices.put("search", "Search");
         actionChoices.put("list", "List");
 
-        System.out.println("Welcome to LaunchCode's TechJobs App!");
+        System.out.println("Welcome to LaunchCode's TechJobs App!\n");
 
         // Allow the user to search until they manually quit
         while (true) {
@@ -44,6 +43,7 @@ public class TechJobs {
 
                     ArrayList<String> results = JobData.findAll(columnChoice);
 
+
                     System.out.println("\n*** All " + columnChoices.get(columnChoice) + " Values ***");
 
                     // Print list of skills, employers, etc
@@ -55,7 +55,7 @@ public class TechJobs {
             } else { // choice is "search"
 
                 // How does the user want to search (e.g. by skill or employer)
-                String searchField = getUserSelection("Search by:", columnChoices);
+                String searchField = getUserSelection("\nSearch by:", columnChoices);
 
                 // What is their search term?
                 System.out.println("\nSearch term:");
@@ -74,6 +74,7 @@ public class TechJobs {
     private static String getUserSelection(String menuHeader, HashMap<String, String> choices) {
 
         int choiceIdx = -1;
+        // but why -1?
         Boolean validChoice = false;
         String[] choiceKeys = new String[choices.size()];
 
@@ -87,7 +88,8 @@ public class TechJobs {
 
         do {
 
-            System.out.println("\n" + menuHeader);
+           System.out.println(menuHeader);
+
 
             // Print available choices
             for (int j = 0; j < choiceKeys.length; j++) {
@@ -115,11 +117,25 @@ public class TechJobs {
         } while(!validChoice);
 
         return choiceKeys[choiceIdx];
+
     }
 
     // Print a list of jobs
     private static void printJobs(ArrayList<HashMap<String, String>> someJobs) {
+        if(someJobs.size()<1){
+            System.out.println("No Results");
+        }
+        else {
 
-        System.out.println("printJobs is not implemented yet");
+            for (HashMap aJob : someJobs) {
+                System.out.println("*****");
+                System.out.println("position type: " + aJob.get("position type"));
+                System.out.println("name: " + aJob.get("name"));
+                System.out.println("employer: " + aJob.get("employer"));
+                System.out.println("location: " + aJob.get("location"));
+                System.out.println("core competency: " + aJob.get("core competency"));
+                System.out.println("*****\n");
+            }
+        }
     }
 }
