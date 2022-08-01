@@ -5,10 +5,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by LaunchCode
@@ -44,6 +41,7 @@ public class JobData {
 
         // Bonus mission: sort the results
         Collections.sort(values);
+        System.out.println(values);
 
         return values;
     }
@@ -55,6 +53,7 @@ public class JobData {
 
         // Bonus mission; normal version returns allJobs
         return new ArrayList<>(allJobs);
+
     }
 
     /**
@@ -65,22 +64,24 @@ public class JobData {
      * with "Enterprise Holdings, Inc".
      *
      * @param column   Column that should be searched.
-     * @param value Value of teh field to search for
+     * @param value Value of the field to search for
      * @return List of all jobs matching the criteria
      */
     public static ArrayList<HashMap<String, String>> findByColumnAndValue(String column, String value) {
 
         // load data, if not already loaded
         loadData();
+        String valueButBig = value.toUpperCase();
 
         ArrayList<HashMap<String, String>> jobs = new ArrayList<>();
 
         for (HashMap<String, String> row : allJobs) {
 
-            String aValue = row.get(column);
+            String aValue = row.get(column).toUpperCase();
 
-            if (aValue.contains(value)) {
+            if (aValue.contains(valueButBig)) {
                 jobs.add(row);
+
             }
         }
 
@@ -97,9 +98,35 @@ public class JobData {
 
         // load data, if not already loaded
         loadData();
+        String valueButBig = value.toUpperCase();
+
+        ArrayList<HashMap<String, String>> valueFoundJobs = new ArrayList<>();
+        //Didn't come into play but I thought it was a good idea: HashMap<Integer, String> keyList = new HashMap<Integer, String>();
+
+
+
+        for (HashMap<String, String> row : allJobs) {
+
+
+
+            if(row.containsValue(value)){
+                valueFoundJobs.add(row);
+            }
+
+            else {
+                String allValues = String.valueOf(row.values()).toUpperCase();
+                if(allValues.contains(valueButBig)){
+                    valueFoundJobs.add(row);
+                }
+            }
+
+        }
+
 
         // TODO - implement this method
-        return null;
+
+        return valueFoundJobs;
+
     }
 
     /**
@@ -120,6 +147,7 @@ public class JobData {
             List<CSVRecord> records = parser.getRecords();
             Integer numberOfColumns = records.get(0).size();
             String[] headers = parser.getHeaderMap().keySet().toArray(new String[numberOfColumns]);
+
 
             allJobs = new ArrayList<>();
 
