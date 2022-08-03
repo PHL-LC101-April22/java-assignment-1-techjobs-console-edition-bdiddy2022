@@ -106,9 +106,6 @@ public class JobData {
 
 
         for (HashMap<String, String> row : allJobs) {
-
-
-
             if(row.containsValue(value)){
                 valueFoundJobs.add(row);
             }

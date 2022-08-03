@@ -12,7 +12,6 @@ Search by:
 4 - Skill
 
 Search term:
-
 *****
 position type: Web - Front End
 name: Junior Web Developer
